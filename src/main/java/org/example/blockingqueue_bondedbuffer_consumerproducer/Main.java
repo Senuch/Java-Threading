@@ -1,49 +1,37 @@
 package org.example.blockingqueue_bondedbuffer_consumerproducer;
 
 public class Main {
-    public static void main( String args[] ) throws Exception{
-        final BlockingQueue<Integer> q = new BlockingQueue<Integer>(5);
+    public static void main(String[] args) throws Exception{
+        final BlockingQueue<Integer> q = new BlockingQueue<>(5);
 
-        Thread t1 = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    for (int i = 0; i < 8; i++) {
-                        q.enqueue(i);
-                        System.out.println("enqueued " + i);
-                    }
-                } catch (InterruptedException ie) {
-
+        Thread t1 = new Thread(() -> {
+            try {
+                for (int i = 0; i < 8; i++) {
+                    q.enqueue(i);
+                    System.out.println("enqueued " + i);
                 }
+            } catch (InterruptedException ignored) {
+
             }
         });
 
-        Thread t2 = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    for (int i = 0; i < 4; i++) {
-                        System.out.println("Thread 2 dequeued: " + q.dequeue());
-                    }
-                } catch (InterruptedException ie) {
-
+        Thread t2 = new Thread(() -> {
+            try {
+                for (int i = 0; i < 4; i++) {
+                    System.out.println("Thread 2 dequeued: " + q.dequeue());
                 }
+            } catch (InterruptedException ignored) {
+
             }
         });
 
-        Thread t3 = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    for (int i = 0; i < 4; i++) {
-                        System.out.println("Thread 3 dequeued: " + q.dequeue());
-                    }
-                } catch (InterruptedException ie) {
-
+        Thread t3 = new Thread(() -> {
+            try {
+                for (int i = 0; i < 4; i++) {
+                    System.out.println("Thread 3 dequeued: " + q.dequeue());
                 }
+            } catch (InterruptedException ignored) {
+
             }
         });
 
@@ -59,14 +47,15 @@ public class Main {
     }
 
     public static class BlockingQueue<T> {
-        private T[] array;
-        private int capacity;
+        private final T[] array;
+        private final int capacity;
         private int size = 0;
         private int head = 0;
         private int tail = 0;
 
         final Object lock = new Object();
 
+        @SuppressWarnings("unchecked")
         public BlockingQueue(int capacity) {
             array = (T[]) new Object[capacity];
             this.capacity = capacity;
@@ -89,7 +78,7 @@ public class Main {
 
         public T dequeue() throws InterruptedException {
 
-            T result = null;
+            T result;
             synchronized (lock) {
                 while (size == 0) {
                     lock.wait();

@@ -5,14 +5,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Main {
-    public static void main( String args[] ) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         NonblockingStack<Integer> stack = new NonblockingStack<>();
         ExecutorService executorService = Executors.newFixedThreadPool(20);
         int numThreads = 2;
         CyclicBarrier barrier = new CyclicBarrier(numThreads);
 
-        long start = System.currentTimeMillis();
+        //long start = System.currentTimeMillis();
         Integer testValue = 51;
 
         try {
@@ -42,8 +42,8 @@ public class Main {
         System.out.println("Number of elements in the stack = " + stack.size());
     }
     public static class NonblockingStack<T> {
-        private AtomicInteger count = new AtomicInteger(0);
-        private AtomicReference<StackNode<T>> top = new AtomicReference<>();
+        private final AtomicInteger count = new AtomicInteger(0);
+        private final AtomicReference<StackNode<T>> top = new AtomicReference<>();
 
         public int size() {
             return count.get();
@@ -77,7 +77,7 @@ public class Main {
     }
 
     public static class StackNode<T> {
-        private T item;
+        private final T item;
         private StackNode<T> next;
 
         public StackNode(T item) {
