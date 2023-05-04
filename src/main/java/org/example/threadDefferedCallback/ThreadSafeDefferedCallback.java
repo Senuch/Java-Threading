@@ -9,13 +9,14 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ThreadSafeDefferedCallback {
-    private PriorityQueue<Callback> pq = new PriorityQueue<>((o1, o2) -> (int) (o1.executeAt - o2.executeAt));
+    private final PriorityQueue<Callback> pq = new PriorityQueue<>((o1, o2) -> (int) (o1.executeAt - o2.executeAt));
     Lock lock = new ReentrantLock();
     Condition lockCondition = lock.newCondition();
 
     private void start() throws InterruptedException {
-        long sleepFor = 0;
+        long sleepFor;
 
+        //noinspection InfiniteLoopStatement
         while (true) {
             lock.lock();
 
@@ -30,10 +31,12 @@ public class ThreadSafeDefferedCallback {
                     break;
                 }
 
+                //noinspection ResultOfMethodCallIgnored
                 lockCondition.await(sleepFor, TimeUnit.MILLISECONDS);
             }
 
             Callback cb = pq.poll();
+            assert cb != null;
             System.out.println(
                     "Executed at " + System.currentTimeMillis() / 1000 + " required at " + cb.executeAt / 1000
                             + ": message:" + cb.message);
@@ -60,7 +63,7 @@ public class ThreadSafeDefferedCallback {
         Thread service = new Thread(() -> {
             try {
                 deferredCallbackExecutor.start();
-            } catch (InterruptedException ie) {
+            } catch (InterruptedException ignored) {
 
             }
         });
