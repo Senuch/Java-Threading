@@ -1,4 +1,4 @@
-package org.example.UnisexBathroomProblem;
+package org.example.unisexbathroomproblem;
 
 import java.util.concurrent.Semaphore;
 

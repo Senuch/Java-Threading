@@ -1,4 +1,4 @@
-package org.example.CountingSemaphore;
+package org.example.countingsemaphore;
 
 class CountingSemaphore {
     public static void main(String[] args) throws InterruptedException {

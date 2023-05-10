@@ -1,4 +1,4 @@
-package org.example.blockingqueue_bondedbuffer_consumerproducer;
+package org.example.blockingqueuebondedbufferconsumerproducer;
 
 class Demonstration2 {
     public static void main(String[] args) throws InterruptedException {

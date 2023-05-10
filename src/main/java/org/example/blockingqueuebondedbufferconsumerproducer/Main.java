@@ -1,4 +1,4 @@
-package org.example.blockingqueue_bondedbuffer_consumerproducer;
+package org.example.blockingqueuebondedbufferconsumerproducer;
 
 public class Main {
     public static void main(String[] args) throws Exception{

@@ -1,4 +1,4 @@
-package org.example.blockingqueue_bondedbuffer_consumerproducer;
+package org.example.blockingqueuebondedbufferconsumerproducer;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

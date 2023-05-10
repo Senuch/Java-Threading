@@ -1,4 +1,4 @@
-package org.example.threadDefferedCallback;
+package org.example.threaddefferedcallback;
 
 import java.util.HashSet;
 import java.util.PriorityQueue;
