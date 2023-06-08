@@ -49,20 +49,10 @@ class MultiThreadedMergeSort {
         final int mid = start + ((end - start) / 2);
 
         // sort first half
-        Thread worker1 = new Thread(new Runnable() {
-
-            public void run() {
-                mergeSort(start, mid, input);
-            }
-        });
+        Thread worker1 = new Thread(() -> mergeSort(start, mid, input));
 
         // sort second half
-        Thread worker2 = new Thread(new Runnable() {
-
-            public void run() {
-                mergeSort(mid + 1, end, input);
-            }
-        });
+        Thread worker2 = new Thread(() -> mergeSort(mid + 1, end, input));
 
         // start the threads
         worker1.start();
